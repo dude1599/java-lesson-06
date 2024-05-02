@@ -19,10 +19,13 @@ public class LambdaExample {
     private static final int[] numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     // Supplier은 제너릭스에 포함된 타입을 반환하는 함수형 인터페이스입니다.
+
     // 이는 다음과 같은 코드를 축약한 형태입니다 :
     // public int supplyNumber() {
     //    return numbers[RANDOM.nextInt(numbers.length)];
     // }
+    // nextInt(n) = 0~n 미만의 정수형 난수 반환 -> 0~9까지 랜덤으로 반환.
+
     private static final Supplier<Integer> numberSupplier = () -> numbers[RANDOM.nextInt(numbers.length)];
 
     // Function은 제너릭스에 포함된 타입을 받아 제너릭스에 포함된 타입을 반환하는 함수형 인터페이스입니다.
@@ -60,9 +63,9 @@ public class LambdaExample {
         int example = exampleResult(first, second);
         int lambda = lambdaResult(first, second);
         if (example == lambda) {
-            System.out.println("정답입니다!");
+            System.out.println("correct!");
         } else {
-            System.out.println("오답입니다!");
+            System.out.println("fault!");
         }
     }
 
@@ -78,8 +81,15 @@ public class LambdaExample {
     // 각 람다는 서로 다른 이름으로 값을 수용한다는것을 잊지 마세요.
     // Function / BiFunction은 apply를, Consumer는 accept를 사용합니다.
     private static int lambdaResult(int base, int delta) {
+        // 람다 표현식을 사용하여 delta를 음수로 변환하고 출력합니다.
+        // Consumer를 이용하여 값을 받아온 뒤 출력합니다.
+        Consumer<Integer> printNegative = (number) -> System.out.println(-number);
+        printNegative.accept(delta);
 
-        throw new UnsupportedOperationException("이 코드를 지우고, 정답을 작성하세요.");
+        // 두 수를 더하는 람다 표현식을 사용하여 base와 delta를 더합니다.
+        // BiFunction을 이용하여 값을 받아온 뒤 두 수를 더한 값을 반환합니다.
+        BiFunction<Integer, Integer, Integer> adder = (num1, num2) -> num1 + num2;
+        return adder.apply(base, delta);
     }
 
 }
